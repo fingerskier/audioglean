@@ -1,9 +1,11 @@
+import AudioPie from '@/com/AudioPie'
+
 import './App.css'
 
 
 function App() {
   return <>
-    {/* Note Circle */}
+    <AudioPie />
   </>
 }
 
