@@ -27,12 +27,16 @@ const CHART_CONFIG = {
             {
                 // hpcp intensity ring
                 data: Array(12).fill(1),
-                backgroundColor: KEYS.map(k => `hsl(${PITCH_CLASS_COLORS[k]}, 0%, 25%)`),
+                backgroundColor: KEYS.map(k => `hsl(${PITCH_CLASS_COLORS[k]}, 100%, 50%)`),
+                borderColor: 'rgba(255,255,255,0.2)',
+                borderWidth: 1,
                 borderAlign: 'inner'
             },
             ...OCTAVES.map(() => ({
                 data: Array(12).fill(1),
                 backgroundColor: Array(12).fill('rgba(0,0,0,0.1)'),
+                borderColor: 'rgba(255,255,255,0.2)',
+                borderWidth: 1,
                 borderAlign: 'inner'
             }))
         ]
@@ -59,19 +63,7 @@ const CHART_CONFIG = {
         },
         plugins: {
             datalabels: {
-                color: "#fff",
-                formatter: function(value, context) {
-                    return context.chart.data.labels[context.dataIndex];
-                },
-                anchor: 'center',
-                align: 'end',
-                offset: function(context) {
-                    context.chart.options.plugins.datalabels.offset = 0.04*context.chart.width;
-                    context.chart.update();
-                },
-                font: {
-                    size: 16
-                }
+                display: false
             }
         }
     }
