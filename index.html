@@ -1,14 +1,44 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>glean</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" /> -->
+    <title>essentia.js examples</title>
+    <script src="src/lib/jquery.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/essentia.js@0.1.0/dist/essentia-wasm.web.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/essentia.js@0.1.0/dist/essentia-wasm.web.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/essentia.js@0.1.0/dist/essentia.js-extractor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+
+    <script src="src/chartConfig.js" defer></script>
+    <script src="src/index.js" defer></script>
   </head>
-  
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+  <body style="background-color:  #000000!important;">
+
+
+      <div class="body-container">
+        <div class="ui centered one column grid container">
+          <div class="ui vertical buttons row">
+            <center>
+              <button
+                id="recordButton"
+                class="ui red inverted big button record-button"
+              >
+                Mic &nbsp;&nbsp;<i class="microphone icon"></i>
+              </button>
+            </center>
+          </div>
+
+          <canvas
+            id="chroma-chart"
+            class="ui centered segment"
+            style="width: 650px; height: 300px; background-color: transparent;"
+          ></canvas>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
