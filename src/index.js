@@ -4,8 +4,8 @@ let isEssentiaInstance = false;
 // global var for web audio API AudioContext
 let audioCtx;
 // buffer size microphone stream (bufferSize is high in order to make PitchYinProbabilistic algo to work)
-let bufferSize = 8192;
-let hopSize = 2048;
+let bufferSize = 4096;
+let hopSize = 1024;
 
 let mic, scriptNode, gain;
 
@@ -116,7 +116,7 @@ function onRecordEssentiaFeatureExtractor(event) {
   // compute RMS for thresholding:
   const rms = essentiaExtractor.RMS(essentiaExtractor.arrayToVector(audioBuffer)).rms;
   // console.info(rms);
-  if (rms >= 0.05) {
+  if (rms >= 0.02) {
     // compute hpcp for overlapping frames of audio
     const hpcp = essentiaExtractor.hpcpExtractor(audioBuffer);
     const scaledHPCP = hpcp.map(i => 100 * Math.tanh(Math.pow(i * 0.5, 2)));
@@ -135,8 +135,8 @@ function onRecordEssentiaFeatureExtractor(event) {
       22050,
       20,
       audioCtx.sampleRate,
-      0.15
-    );
+      0.10
+      );
 
     let octaveIdx = -1;
     let pitchIdx = -1;
