@@ -22,6 +22,9 @@ let gumStream;
 // settings for plotting
 let chromaChart;
 
+// minimum brightness percentage for detected notes
+const MIN_BRIGHTNESS = 35;
+
 // record native microphone input and do further audio processing on each audio buffer using the given callback functions
 function startMicRecordStream(
   audioCtx,
@@ -119,9 +122,10 @@ function onRecordEssentiaFeatureExtractor(event) {
     const scaledHPCP = hpcp.map(i => 100 * Math.tanh(Math.pow(i * 0.5, 2)));
 
     // update hpcp intensity ring (dataset 0)
-    chromaChart.data.datasets[0].backgroundColor = KEYS.map((k, i) =>
-      `hsl(${PITCH_CLASS_COLORS[k]}, 100%, ${50 + scaledHPCP[i] / 2}%)`
-    );
+    chromaChart.data.datasets[0].backgroundColor = KEYS.map((k, i) => {
+      const brightness = MIN_BRIGHTNESS + (scaledHPCP[i] * (100 - MIN_BRIGHTNESS)) / 100;
+      return `hsl(${PITCH_CLASS_COLORS[k]}, 100%, ${brightness}%)`;
+    });
 
     // detect pitch and octave using PitchYin
     const pitchOut = essentiaExtractor.PitchYin(
@@ -155,7 +159,9 @@ function onRecordEssentiaFeatureExtractor(event) {
 
     chromaChart.update();
   } else {
-    chromaChart.data.datasets[0].backgroundColor = KEYS.map(k => `hsl(${PITCH_CLASS_COLORS[k]}, 100%, 50%)`);
+    chromaChart.data.datasets[0].backgroundColor = KEYS.map(
+      k => `hsl(${PITCH_CLASS_COLORS[k]}, 100%, ${MIN_BRIGHTNESS}%)`
+    );
     OCTAVES.forEach((oct, idx) => {
       chromaChart.data.datasets[idx + 1].backgroundColor = Array(12).fill('rgba(0,0,0,0.1)');
     });
