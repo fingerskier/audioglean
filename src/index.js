@@ -116,16 +116,49 @@ function onRecordEssentiaFeatureExtractor(event) {
   if (rms >= 0.05) {
     // compute hpcp for overlapping frames of audio
     const hpcp = essentiaExtractor.hpcpExtractor(audioBuffer);
-    // console.log(`raw: ${hpcp}`);
+    const scaledHPCP = hpcp.map(i => 100 * Math.tanh(Math.pow(i * 0.5, 2)));
 
-    const scaledHPCP = hpcp.map(i => 100* Math.tanh(Math.pow(i*0.5, 2)));
-    // console.log(`scaled: ${scaledHPCP}`);
+    // update hpcp intensity ring (dataset 0)
+    chromaChart.data.datasets[0].backgroundColor = KEYS.map((k, i) =>
+      `hsl(${PITCH_CLASS_COLORS[k]}, ${scaledHPCP[i]}%, ${25 + scaledHPCP[i] / 3}%)`
+    );
 
-    chromaChart.data.datasets[0].backgroundColor = KEYS.map((k, i) => `hsl(${PITCH_CLASS_COLORS[k]}, ${scaledHPCP[i]}%, ${25+scaledHPCP[i]/3}%)`);
-    // here we call the plotting function to display realtime feature extraction results
+    // detect pitch and octave using PitchYin
+    const pitchOut = essentiaExtractor.PitchYin(
+      essentiaExtractor.arrayToVector(audioBuffer),
+      bufferSize,
+      true,
+      22050,
+      20,
+      audioCtx.sampleRate,
+      0.15
+    );
+
+    let octaveIdx = -1;
+    let pitchIdx = -1;
+    if (pitchOut.pitch > 0) {
+      const midi = Math.round(12 * Math.log2(pitchOut.pitch / 440) + 69);
+      const pc = midi % 12;
+      pitchIdx = (pc + 3) % 12;
+      const octave = Math.floor(midi / 12) - 1;
+      octaveIdx = OCTAVES.indexOf(octave);
+    }
+
+    OCTAVES.forEach((oct, idx) => {
+      chromaChart.data.datasets[idx + 1].backgroundColor = KEYS.map((k, i) => {
+        if (idx === octaveIdx && i === pitchIdx) {
+          return `hsl(${PITCH_CLASS_COLORS[k]}, 100%, 50%)`;
+        }
+        return 'rgba(0,0,0,0.1)';
+      });
+    });
+
     chromaChart.update();
   } else {
-    chromaChart.data.datasets[0].backgroundColor = KEYS.map((k, i) => `hsl(${PITCH_CLASS_COLORS[k]}, 0%, 25%)`);
+    chromaChart.data.datasets[0].backgroundColor = KEYS.map(k => `hsl(${PITCH_CLASS_COLORS[k]}, 0%, 25%)`);
+    OCTAVES.forEach((oct, idx) => {
+      chromaChart.data.datasets[idx + 1].backgroundColor = Array(12).fill('rgba(0,0,0,0.1)');
+    });
     chromaChart.update();
   }
 

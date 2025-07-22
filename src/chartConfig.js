@@ -15,17 +15,27 @@ const PITCH_CLASS_COLORS = {
     'B': 180
 };
 
+const OCTAVES = [2, 3, 4, 5, 6];
+
 const canvas = document.getElementById("chroma-chart");
 
 const CHART_CONFIG = {
-    type: 'polarArea',
+    type: 'doughnut',
     data: {
-        datasets: [{
-            data: Array(12).fill(1),
-            backgroundColor: KEYS.map(k => `hsl(${PITCH_CLASS_COLORS[k]}, 0%, 25%)`),
-            borderAlign: 'inner'
-        }],
-        labels: KEYS
+        labels: KEYS,
+        datasets: [
+            {
+                // hpcp intensity ring
+                data: Array(12).fill(1),
+                backgroundColor: KEYS.map(k => `hsl(${PITCH_CLASS_COLORS[k]}, 0%, 25%)`),
+                borderAlign: 'inner'
+            },
+            ...OCTAVES.map(() => ({
+                data: Array(12).fill(1),
+                backgroundColor: Array(12).fill('rgba(0,0,0,0.1)'),
+                borderAlign: 'inner'
+            }))
+        ]
     },
     options: {
         legend: {
@@ -39,14 +49,7 @@ const CHART_CONFIG = {
         title: {
             display: false
         },
-        scale: {
-            ticks: {
-                display: false
-            },
-            pointLabels: {
-                display: false
-            }
-        },
+        cutoutPercentage: 30,
         animation: {
             animateRotate: false,
             animateScale: true
