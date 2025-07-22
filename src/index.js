@@ -23,7 +23,7 @@ let gumStream;
 let chromaChart;
 
 // minimum brightness percentage for detected notes
-const MIN_BRIGHTNESS = 35;
+const MIN_BRIGHTNESS = 50;
 
 // record native microphone input and do further audio processing on each audio buffer using the given callback functions
 function startMicRecordStream(
