@@ -120,7 +120,7 @@ function onRecordEssentiaFeatureExtractor(event) {
 
     // update hpcp intensity ring (dataset 0)
     chromaChart.data.datasets[0].backgroundColor = KEYS.map((k, i) =>
-      `hsl(${PITCH_CLASS_COLORS[k]}, ${scaledHPCP[i]}%, ${25 + scaledHPCP[i] / 3}%)`
+      `hsl(${PITCH_CLASS_COLORS[k]}, 100%, ${50 + scaledHPCP[i] / 2}%)`
     );
 
     // detect pitch and octave using PitchYin
@@ -155,7 +155,7 @@ function onRecordEssentiaFeatureExtractor(event) {
 
     chromaChart.update();
   } else {
-    chromaChart.data.datasets[0].backgroundColor = KEYS.map(k => `hsl(${PITCH_CLASS_COLORS[k]}, 0%, 25%)`);
+    chromaChart.data.datasets[0].backgroundColor = KEYS.map(k => `hsl(${PITCH_CLASS_COLORS[k]}, 100%, 50%)`);
     OCTAVES.forEach((oct, idx) => {
       chromaChart.data.datasets[idx + 1].backgroundColor = Array(12).fill('rgba(0,0,0,0.1)');
     });
