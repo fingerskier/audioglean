@@ -1,3 +1,11 @@
+import {
+  CHART_CONFIG,
+  KEYS,
+  OCTAVES,
+  PITCH_CLASS_COLORS,
+  canvas
+} from './chartConfig.js';
+
 // global var to load essentia.js core instance
 let essentiaExtractor;
 let isEssentiaInstance = false;
