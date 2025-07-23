@@ -21,6 +21,8 @@ let gumStream;
 
 // settings for plotting
 let chromaChart;
+let dbLevelElem;
+let dbValueElem;
 
 // minimum brightness percentage for detected notes
 const MIN_BRIGHTNESS = 50;
@@ -115,7 +117,13 @@ function onRecordEssentiaFeatureExtractor(event) {
 
   // compute RMS for thresholding:
   const rms = essentiaExtractor.RMS(essentiaExtractor.arrayToVector(audioBuffer)).rms;
-  // console.info(rms);
+  const db = 20 * Math.log10(rms);
+  const dbNorm = Math.min(Math.max((db + 60) / 60, 0), 1);
+  if (dbLevelElem && dbValueElem) {
+    dbLevelElem.style.width = (dbNorm * 100) + '%';
+    dbValueElem.textContent = db.toFixed(1) + ' dB';
+  }
+
   if (rms >= 0.02) {
     // compute hpcp for overlapping frames of audio
     const hpcp = essentiaExtractor.hpcpExtractor(audioBuffer);
@@ -173,6 +181,8 @@ function onRecordEssentiaFeatureExtractor(event) {
 $(document).ready(function() {
   // create essentia plot instance
   chromaChart = new Chart(canvas.getContext('2d'), CHART_CONFIG);
+  dbLevelElem = document.getElementById('db-level');
+  dbValueElem = document.getElementById('db-value');
 
   // add event listeners to ui objects
   $("#recordButton").click(function() {
