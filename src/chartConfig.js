@@ -1,6 +1,6 @@
-const KEYS = [ 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
+export const KEYS = [ 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
 
-const PITCH_CLASS_COLORS = {
+export const PITCH_CLASS_COLORS = {
     'C': 210, 
     'C#': 240, 
     'D': 270, 
@@ -15,11 +15,11 @@ const PITCH_CLASS_COLORS = {
     'B': 180
 };
 
-const OCTAVES = [2, 3, 4, 5, 6];
+export const OCTAVES = [2, 3, 4, 5, 6];
 
-const canvas = document.getElementById("chroma-chart");
+export const canvas = document.getElementById("chroma-chart");
 
-const CHART_CONFIG = {
+export const CHART_CONFIG = {
     type: 'doughnut',
     data: {
         labels: KEYS,
@@ -68,3 +68,5 @@ const CHART_CONFIG = {
         }
     }
 }
+
+export default CHART_CONFIG;
